@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body{
+            background-color: #D9AFD9;
+            background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+            background-repeat: repeat-x;
+            margin: 0;
+            padding: 0;
+        }
+        .header{
+            background-color: black;
+            color: white;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            font-weight: lighter;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .input{
+            height: 60px;
+            width: 400px;
+            border-radius: 30px;
+            margin-left: 500px;
+            margin-top: 20px;
+            padding: 5px;
+            font-size: 26px;
+            padding-left: 20px;
+        }
+
+        #btn-1{
+            display: block;
+            height: 60px;
+            width: 190px;
+            font-size: large;
+            text-transform: uppercase;
+            margin-left: 600px;
+            background-color: white;
+            border: 1px solid white;
+            margin-top: 10px;
+            border-radius: 5px;            
+        }
+
+        #btn-1:hover{
+            background-color: black;
+            color: white;
+            border: 1px solid black;
+            transition: 0.7s;
+        }
+
+        .size{
+            height: 100px;
+            width: 100px;
+        }
+    .location{
+        text-align: center;
+        font-size: 35px;
+        padding-top: 20px;
+    }
+
+    #temp{
+        height: 40px;
+    }
+
+    .temperaTure{
+        font-size: 56px;
+    }
+    </style>
+</head>
+<body>
+    <h1 class="header">Weather Checking App</h1>
+
+    <input type="text" id="User-Input" class="input">
+
+    <button id="btn-1" onclick="generateResult()">Check Weather</button>
+    <div id="temp" class="temperaTure location">
+    </div>
+
+    <div id="location" class="location">
+
+    </div>
+
+    <div id="Fahrenheit" class="location">
+
+    </div>
+
+    <div id="Feelslike" class="location">
+
+    </div>
+    <div id="Humidity" class="location">
+
+    </div>
+    <div id="Visibility" class="location">
+
+    </div>
+    <div id="WindSpeed" class="location">
+
+    </div>
+
+
+    <script>
+        
+
+        function generateResult(){
+            let cities = document.getElementById("User-Input").value;
+            if(cities == ""){
+                alert("Please Enter Your City Name")
+            }else {
+                axios.get('https://api.weatherapi.com/v1/current.json?key=bc95a555c96041ed99970949220107&q='+cities)
+            .then(function(response){
+                console.log(response.data)
+                let data = response.data;
+                let locaTion = data.location.name;
+                document.getElementById("location").innerText = "Location = " + `${locaTion}`;
+                let temperaTure = data.current.temp_c;
+                document.getElementById("temp").innerText = `${temperaTure}` + "°C";
+                let fahRenHeit = data.current.temp_f;
+                document.getElementById("Fahrenheit").innerText = "Fahrenheit = " + `${fahRenHeit}` + "°F";
+                let feeling = data.current.feelslike_c;
+                document.getElementById("Feelslike").innerText = "Feelslike = " + `${feeling}` + "°C";
+                let humidity = data.current.humidity;
+                document.getElementById("Humidity").innerText = "Humidity = " + `${humidity}` + "%";
+                let visible = data.current.vis_km;
+                document.getElementById("Visibility").innerText = "Visibility = " + `${visible}` + "km";
+                let wind = data.current.wind_kph;
+                document.getElementById("WindSpeed").innerText = "Wind Speed = " + `${wind}` + "kmph"
+            })
+            }
+        }
+    </script>
+</body>
+</html>
